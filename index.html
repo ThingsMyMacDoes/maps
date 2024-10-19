@@ -27,11 +27,18 @@
             display: none;
         }
 
-        /* Buttons to toggle layers */
+        /* Sticky buttons container */
         .buttons-container {
-            margin-top: 20px;
+            position: fixed; /* Make it fixed so it stays visible */
+            top: 10px; /* Adjust positioning */
+            left: 10px; /* Place it to the left */
+            z-index: 1000; /* Make sure it appears above images */
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
         }
 
+        /* Styling the buttons */
         .toggle-button {
             margin-right: 10px;
             padding: 10px;
@@ -39,6 +46,11 @@
             color: white;
             border: none;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button.active {
+            background-color: #4CAF50; /* Change to green when layer is active */
         }
 
         .toggle-button:hover {
@@ -57,21 +69,25 @@
 </div>
 
 <div class="buttons-container">
-    <button class="toggle-button" onclick="toggleLayer('layer1')">Toggle Layer 1</button>
-    <button class="toggle-button" onclick="toggleLayer('layer2')">Toggle Layer 2</button>
-    <button class="toggle-button" onclick="toggleLayer('layer3')">Toggle Layer 3</button>
-    <button class="toggle-button" onclick="toggleLayer('layer4')">Toggle Layer 4</button>
-    <button class="toggle-button" onclick="toggleLayer('layer5')">Toggle Layer 5</button>
+    <button class="toggle-button" id="button1" onclick="toggleLayer('layer1', 'button1')">Toggle Layer 1</button>
+    <button class="toggle-button" id="button2" onclick="toggleLayer('layer2', 'button2')">Toggle Layer 2</button>
+    <button class="toggle-button" id="button3" onclick="toggleLayer('layer3', 'button3')">Toggle Layer 3</button>
+    <button class="toggle-button" id="button4" onclick="toggleLayer('layer4', 'button4')">Toggle Layer 4</button>
+    <button class="toggle-button" id="button5" onclick="toggleLayer('layer5', 'button5')">Toggle Layer 5</button>
 </div>
 
 <script>
-    // Function to toggle the visibility of a layer
-    function toggleLayer(layerId) {
+    // Function to toggle the visibility of a layer and change button color
+    function toggleLayer(layerId, buttonId) {
         var layer = document.getElementById(layerId);
+        var button = document.getElementById(buttonId);
+
         if (layer.classList.contains('hidden')) {
             layer.classList.remove('hidden');
+            button.classList.add('active');  // Add active class to button when visible
         } else {
             layer.classList.add('hidden');
+            button.classList.remove('active');  // Remove active class when hidden
         }
     }
 </script>
