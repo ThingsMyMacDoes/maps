@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Layers</title>
+    <style>
+        /* Styling the container for the stacked images */
+        .image-container {
+            position: relative;
+            width: 500px; /* Set a fixed width */
+            height: 500px; /* Set a fixed height */
+            margin-bottom: 20px;
+        }
+
+        /* Base styles for all images (they will overlap) */
+        .layered-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Initially hide all layers */
+        .hidden {
+            display: none;
+        }
+
+        /* Buttons to toggle layers */
+        .buttons-container {
+            margin-top: 20px;
+        }
+
+        .toggle-button {
+            margin-right: 10px;
+            padding: 10px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .toggle-button:hover {
+            background-color: #005f7f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="image-container">
+    <img src="layer1.png" alt="Layer 1" id="layer1" class="layered-image">
+    <img src="layer2.png" alt="Layer 2" id="layer2" class="layered-image hidden">
+    <img src="layer3.png" alt="Layer 3" id="layer3" class="layered-image hidden">
+    <img src="layer4.png" alt="Layer 4" id="layer4" class="layered-image hidden">
+    <img src="layer5.png" alt="Layer 5" id="layer5" class="layered-image hidden">
+</div>
+
+<div class="buttons-container">
+    <button class="toggle-button" onclick="toggleLayer('layer1')">Toggle Layer 1</button>
+    <button class="toggle-button" onclick="toggleLayer('layer2')">Toggle Layer 2</button>
+    <button class="toggle-button" onclick="toggleLayer('layer3')">Toggle Layer 3</button>
+    <button class="toggle-button" onclick="toggleLayer('layer4')">Toggle Layer 4</button>
+    <button class="toggle-button" onclick="toggleLayer('layer5')">Toggle Layer 5</button>
+</div>
+
+<script>
+    // Function to toggle the visibility of a layer
+    function toggleLayer(layerId) {
+        var layer = document.getElementById(layerId);
+        if (layer.classList.contains('hidden')) {
+            layer.classList.remove('hidden');
+        } else {
+            layer.classList.add('hidden');
+        }
+    }
+</script>
+
+</body>
+</html>
