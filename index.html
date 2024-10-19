@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Layers with Zoom</title>
+    <style>
+        /* Styling the container for the stacked images */
+        .image-container {
+            position: relative;
+            width: 2480px; /* Set a fixed width */
+            height: 3507px; /* Set a fixed height */
+            margin-bottom: 20px;
+            overflow: hidden; /* Hide overflow for zoom effect */
+        }
+
+        /* Base styles for all images (they will overlap) */
+        .layered-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease; /* Smooth transition for zoom */
+        }
+
+        /* Initially hide all layers */
+        .hidden {
+            display: none;
+        }
+
+        /* Buttons container */
+        .buttons-container {
+            position: fixed; /* Make it fixed so it stays visible */
+            top: 10px; /* Adjust positioning */
+            left: 10px; /* Place it to the left */
+            z-index: 1000; /* Make sure it appears above images */
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Styling the buttons */
+        .toggle-button {
+            margin-right: 10px;
+            padding: 10px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button.active {
+            background-color: #4CAF50; /* Change to green when layer is active */
+        }
+
+        .toggle-button:hover {
+            background-color: #005f7f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="image-container">
+    <img src="layer1.png" alt="Layer 1" id="layer1" class="layered-image">
+    <img src="layer2.png" alt="Layer 2" id="layer2" class="layered-image hidden">
+    <img src="layer3.png" alt="Layer 3" id="layer3" class="layered-image hidden">
+    <img src="layer4.png" alt="Layer 4" id="layer4" class="layered-image hidden">
+    <img src="layer5.png" alt="Layer 5" id="layer5" class="layered-image hidden">
+</div>
+
+<div class="buttons-container">
+    <button class="toggle-button" id="button1" onclick="toggleLayer('layer1', 'button1', 1)">Toggle Layer 1</button>
+    <button class="toggle-button" id="button2" onclick="toggleLayer('layer2', 'button2', 2)">Toggle Layer 2</button>
+    <button class="toggle-button" id="button3" onclick="toggleLayer('layer3', 'button3', 3)">Toggle Layer 3</button>
+    <button class="toggle-button" id="button4" onclick="toggleLayer('layer4', 'button4', 4)">Toggle Layer 4</button>
+    <button class="toggle-button" id="button5" onclick="toggleLayer('layer5', 'button5', 5)">Toggle Layer 5</button>
+</div>
+
+<script>
+    // Function to toggle the visibility of a layer and zoom/focus on a specific part
+    function toggleLayer(layerId, buttonId, focusArea) {
+        var layer = document.getElementById(layerId);
+        var button = document.getElementById(buttonId);
+
+        // Toggle visibility of layer
+        if (layer.classList.contains('hidden')) {
+            layer.classList.remove('hidden');
+            button.classList.add('active');
+        } else {
+            layer.classList.add('hidden');
+            button.classList.remove('active');
+        }
+
+        // Apply zoom and translate transformation to focus on a specific area
+        var zoomFactor = 2; // Zoom in 2x
+        switch (focusArea) {
+            case 1:
+                // Focus on top-left part
+                layer.style.transform = 'scale(' + zoomFactor + ') translate(-0%, -0%)';
+                break;
+            case 2:
+                // Focus on top-right part
+                layer.style.transform = 'scale(' + zoomFactor + ') translate(-50%, -0%)';
+                break;
+            case 3:
+                // Focus on bottom-left part
+                layer.style.transform = 'scale(' + zoomFactor + ') translate(-0%, -50%)';
+                break;
+            case 4:
+                // Focus on bottom-right part
+                layer.style.transform = 'scale(' + zoomFactor + ') translate(-50%, -50%)';
+                break;
+            case 5:
+                // Focus on center
+                layer.style.transform = 'scale(' + zoomFactor + ') translate(-25%, -25%)';
+                break;
+            default:
+                // No zoom (reset)
+                layer.style.transform = 'scale(1) translate(0, 0)';
+        }
+    }
+</script>
+
+</body>
+</html>
