@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gent</title>
+    <style>
+        /* Styling the container for the stacked images */
+        .image-container {
+            position: absolute; /* Positioned absolutely to be centered */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the container */
+            width: 100vw; /* Set width to viewport width */
+            height: 100vh; /* Set height to viewport height */
+            margin-bottom: 20px;
+            overflow: hidden; /* Hide any overflow */
+        }
+
+        /* Base styles for all images (they will overlap) */
+        .layered-image {
+            position: absolute;
+            top: 50%; /* Center the image vertically */
+            left: 50%; /* Center the image horizontally */
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Scale the image to fit the container, maintaining aspect ratio */
+            transform: translate(-50%, -50%); /* Make sure the image is centered in the container */
+            transition: transform 0.5s ease; /* Smooth transition for panning */
+        }
+
+        /* Initially hide all layers */
+        .hidden {
+            display: none;
+        }
+
+        /* Sticky buttons container */
+        .buttons-container {
+            position: fixed; /* Make it fixed so it stays visible */
+            top: 10px; /* Adjust positioning */
+            left: 10px; /* Place it to the left */
+            z-index: 1000; /* Make sure it appears above images */
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Styling the buttons */
+        .toggle-button {
+            margin-right: 10px;
+            padding: 10px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: relative; /* Needed to position the tooltip */
+        }
+
+        .toggle-button.active {
+            background-color: #4CAF50; /* Change to green when layer is active */
+        }
+
+        .toggle-button:hover {
+            background-color: #005f7f;
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed to the left side of the screen */
+            left: 20px; /* Place the tooltip on the left side of the screen */
+            top: 50px; /* Adjust this based on the screen or button position */
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: normal; /* Allow multiline text */
+            z-index: 1001;
+            font-family: Arial, sans-serif; /* Default font family */
+            font-size: 14px; /* Default font size */
+            max-width: 300px; /* Restrict width to avoid too long lines */
+        }
+
+        /* Show tooltip on button hover */
+        .toggle-button:hover .tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="image-container">
+    <img src="layer1.png" alt="Layer 1" id="layer1" class="layered-image">
+    <img src="layer2.png" alt="Layer 2" id="layer2" class="layered-image hidden">
+    <img src="layer3.png" alt="Layer 3" id="layer3" class="layered-image hidden">
+    <img src="layer4.png" alt="Layer 4" id="layer4" class="layered-image hidden">
+    <img src="layer5.png" alt="Layer 5" id="layer5" class="layered-image hidden">
+</div>
+
+<div class="buttons-container">
+    <!-- Center Map Button -->
+    <button class="toggle-button" id="button1" onclick="toggleLayer('layer1', 'button1')">Center Map</button>
+    
+    <!-- Map Button with Tooltip -->
+    <button class="toggle-button" id="button2" onclick="toggleLayer('layer2', 'button2')">
+        Map
+        <div class="tooltip">This is the Map view of the area.</div>
+    </button>
+    
+    <!-- Schelde Button with Multiline Tooltip -->
+    <button class="toggle-button" id="button3" onclick="toggleLayer('layer3', 'button3')">
+        Schelde
+        <div class="tooltip">
+            De Schelde (Frans: Escaut) is een 350 kilometer lange rivier die ontspringt in de Franse gemeente Gouy in het noorden van Frankrijk 
+            en door België en het zuidwesten van Nederland naar de Noordzee stroomt. Haar eerste benaming was Scaldis, in een Romeinse tekst 
+            uit de 1e eeuw voor Chr. Een andere naam was Scala. De grootste haven aan de Schelde is de haven van Antwerpen. Al voor de Romeinen 
+            was de monding van de Schelde van strategisch belang.
+        </div>
+    </button>
+    
+    <!-- Visserij Button with Tooltip -->
+    <button class="toggle-button" id="button4" onclick="toggleLayer('layer4', 'button4')">
+        Visserij
+        <div class="tooltip">This area is known for the Visserij district.</div>
+    </button>
+    
+    <!-- Lieve Button with Tooltip -->
+    <button class="toggle-button" id="button5" onclick="toggleLayer('layer5', 'button5')">
+        Lieve
+        <div class="tooltip">Lieve canal runs through this area.</div>
+    </button>
+</div>
+
+<script>
+    // Function to toggle the visibility of a layer and change button color
+    function toggleLayer(layerId, buttonId) {
+        var layer = document.getElementById(layerId);
+        var button = document.getElementById(buttonId);
+
+        if (layer.classList.contains('hidden')) {
+            // Show layer and activate button
+            layer.classList.remove('hidden');
+            button.classList.add('active');
+            
+            // Pan to the specific area based on the newly activated layer
+            applyPan(layerId);
+        } else {
+            // Hide layer and deactivate button
+            layer.classList.add('hidden');
+            button.classList.remove('active');
+        }
+    }
+
+    // Function to apply panning to all visible layers based on the active layer
+    function applyPan(activeLayerId) {
+        // Define panning values for each layer's area of interest
+        var panValues = {
+            'layer1': {x: '0%', y: '0%'}, // Example pan for Layer 1
+            'layer2': {x: '0%', y: '0%'},  // Example pan for Layer 2
+            'layer3': {x: '-20%', y: '5%'},  // Example pan for Layer 3
+            'layer4': {x: '-10%', y: '-10%'}, // Example pan for Layer 4
+            'layer5': {x: '0', y: '20%'}     // Example pan for Layer 5
+        };
+
+        // Get the x and y values for the selected layer
+        var pan = panValues[activeLayerId] || {x: '0', y: '0'}; // Default is no pan
+
+        // Apply the same transformation to all visible layers
+        var visibleLayers = document.querySelectorAll('.layered-image:not(.hidden)');
+        visibleLayers.forEach(function(layer) {
+            // Update translation for each visible layer relative to the container's center
+            layer.style.transform = `translate(calc(-50% + ${pan.x}), calc(-50% + ${pan.y}))`;
+        });
+    }
+</script>
+
+</body>
+</html>
