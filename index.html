@@ -86,53 +86,38 @@
         var button = document.getElementById(buttonId);
 
         if (layer.classList.contains('hidden')) {
+            // Show layer and activate button
             layer.classList.remove('hidden');
-            button.classList.add('active');  // Add active class to button when visible
+            button.classList.add('active');
+            
+            // Pan to the specific area based on the newly activated layer
+            applyPan(layerId);
         } else {
+            // Hide layer and deactivate button
             layer.classList.add('hidden');
-            button.classList.remove('active');  // Remove active class when hidden
+            button.classList.remove('active');
         }
-
-        // Apply the pan effect after toggling
-        applyPan();
     }
 
-    // Function to apply panning based on which layer is visible
-    function applyPan() {
-        var layers = document.querySelectorAll('.layered-image:not(.hidden)');
-        
-        // Reset transformations for all layers (no pan by default)
-        layers.forEach(layer => {
-            layer.style.transform = `translate(0, 0)`;
-        });
+    // Function to apply panning to all visible layers based on the active layer
+    function applyPan(activeLayerId) {
+        // Define panning values for each layer's area of interest
+        var panValues = {
+            'layer1': {x: '-20%', y: '-10%'}, // Example pan for Layer 1
+            'layer2': {x: '10%', y: '15%'},  // Example pan for Layer 2
+            'layer3': {x: '-30%', y: '5%'},  // Example pan for Layer 3
+            'layer4': {x: '15%', y: '-20%'}, // Example pan for Layer 4
+            'layer5': {x: '0', y: '30%'}     // Example pan for Layer 5
+        };
 
-        // Check which layer is active and pan accordingly
-        if (document.getElementById('layer1').classList.contains('hidden') === false) {
-            // Pan to a specific area for layer 1
-            layers.forEach(layer => {
-                layer.style.transform = `translate(-20%, -10%)`;  // Example pan for layer 1
-            });
-        } else if (document.getElementById('layer2').classList.contains('hidden') === false) {
-            // Pan to a specific area for layer 2
-            layers.forEach(layer => {
-                layer.style.transform = `translate(10%, 15%)`;  // Example pan for layer 2
-            });
-        } else if (document.getElementById('layer3').classList.contains('hidden') === false) {
-            // Pan to a specific area for layer 3
-            layers.forEach(layer => {
-                layer.style.transform = `translate(-30%, 5%)`;  // Example pan for layer 3
-            });
-        } else if (document.getElementById('layer4').classList.contains('hidden') === false) {
-            // Pan to a specific area for layer 4
-            layers.forEach(layer => {
-                layer.style.transform = `translate(15%, -20%)`;  // Example pan for layer 4
-            });
-        } else if (document.getElementById('layer5').classList.contains('hidden') === false) {
-            // Pan to a specific area for layer 5
-            layers.forEach(layer => {
-                layer.style.transform = `translate(0, 30%)`;  // Example pan for layer 5
-            });
-        }
+        // Get the x and y values for the selected layer
+        var pan = panValues[activeLayerId] || {x: '0', y: '0'}; // Default is no pan
+
+        // Apply the same transformation to all visible layers
+        var visibleLayers = document.querySelectorAll('.layered-image:not(.hidden)');
+        visibleLayers.forEach(function(layer) {
+            layer.style.transform = `translate(${pan.x}, ${pan.y})`;
+        });
     }
 </script>
 
