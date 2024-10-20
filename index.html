@@ -22,7 +22,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain; /* Scale the image to fit the container, maintaining aspect ratio */
-            transition: transform 0.5s ease; /* Smooth transition for zoom and focus */
+            transition: transform 0.5s ease; /* Smooth transition for panning */
         }
 
         /* Initially hide all layers */
@@ -80,12 +80,11 @@
 </div>
 
 <script>
-    // Function to toggle the visibility of a layer and apply zoom and focus
+    // Function to toggle the visibility of a layer and change button color
     function toggleLayer(layerId, buttonId) {
         var layer = document.getElementById(layerId);
         var button = document.getElementById(buttonId);
-        
-        // Manage button state (active/inactive)
+
         if (layer.classList.contains('hidden')) {
             layer.classList.remove('hidden');
             button.classList.add('active');  // Add active class to button when visible
@@ -94,45 +93,44 @@
             button.classList.remove('active');  // Remove active class when hidden
         }
 
-        // Apply zoom and focus to all visible layers
-        applyZoomAndFocus();
+        // Apply the pan effect after toggling
+        applyPan();
     }
 
-    // Function to apply zoom and focus based on active layers
-    function applyZoomAndFocus() {
+    // Function to apply panning based on which layer is visible
+    function applyPan() {
         var layers = document.querySelectorAll('.layered-image:not(.hidden)');
-        var zoomFactor = 1.5;
-
-        // Reset transformations for all active layers
+        
+        // Reset transformations for all layers (no pan by default)
         layers.forEach(layer => {
-            layer.style.transform = `scale(${zoomFactor}) translate(0, 0)`;
+            layer.style.transform = `translate(0, 0)`;
         });
 
-        // Set focus area for each layer based on which one is active
+        // Check which layer is active and pan accordingly
         if (document.getElementById('layer1').classList.contains('hidden') === false) {
-            // Focus on area 1 (for layer1)
+            // Pan to a specific area for layer 1
             layers.forEach(layer => {
-                layer.style.transform = `scale(${zoomFactor}) translate(-20%, -10%)`;
+                layer.style.transform = `translate(-20%, -10%)`;  // Example pan for layer 1
             });
         } else if (document.getElementById('layer2').classList.contains('hidden') === false) {
-            // Focus on area 2 (for layer2)
+            // Pan to a specific area for layer 2
             layers.forEach(layer => {
-                layer.style.transform = `scale(${zoomFactor}) translate(10%, 15%)`;
+                layer.style.transform = `translate(10%, 15%)`;  // Example pan for layer 2
             });
         } else if (document.getElementById('layer3').classList.contains('hidden') === false) {
-            // Focus on area 3 (for layer3)
+            // Pan to a specific area for layer 3
             layers.forEach(layer => {
-                layer.style.transform = `scale(${zoomFactor}) translate(-30%, 5%)`;
+                layer.style.transform = `translate(-30%, 5%)`;  // Example pan for layer 3
             });
         } else if (document.getElementById('layer4').classList.contains('hidden') === false) {
-            // Focus on area 4 (for layer4)
+            // Pan to a specific area for layer 4
             layers.forEach(layer => {
-                layer.style.transform = `scale(${zoomFactor}) translate(15%, -20%)`;
+                layer.style.transform = `translate(15%, -20%)`;  // Example pan for layer 4
             });
         } else if (document.getElementById('layer5').classList.contains('hidden') === false) {
-            // Focus on area 5 (for layer5)
+            // Pan to a specific area for layer 5
             layers.forEach(layer => {
-                layer.style.transform = `scale(${zoomFactor}) translate(0, 30%)`;
+                layer.style.transform = `translate(0, 30%)`;  // Example pan for layer 5
             });
         }
     }
