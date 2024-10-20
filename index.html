@@ -72,7 +72,7 @@
 </div>
 
 <div class="buttons-container">
-    <button class="toggle-button" id="button1" onclick="toggleLayer('layer1', 'button1')">Ignore</button>
+    <button class="toggle-button" id="button1" onclick="toggleLayer('layer1', 'button1')">Center Map</button>
     <button class="toggle-button" id="button2" onclick="toggleLayer('layer2', 'button2')">Map</button>
     <button class="toggle-button" id="button3" onclick="toggleLayer('layer3', 'button3')">Schelde</button>
     <button class="toggle-button" id="button4" onclick="toggleLayer('layer4', 'button4')">Visserij</button>
@@ -103,7 +103,7 @@
     function applyPan(activeLayerId) {
         // Define panning values for each layer's area of interest
         var panValues = {
-            'layer1': {x: '-20%', y: '-10%'}, // Example pan for Layer 1
+            'layer1': {x: '0%', y: '0%'}, // Example pan for Layer 1
             'layer2': {x: '0%', y: '0%'},  // Example pan for Layer 2
             'layer3': {x: '-20%', y: '5%'},  // Example pan for Layer 3
             'layer4': {x: '10%', y: '10%'}, // Example pan for Layer 4
